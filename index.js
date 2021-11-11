@@ -5,13 +5,22 @@ require("console.table");
 
 function viewEmployees() {
     console.log("viewEmployees Function")
-
+    db.promise().query("SELECT * FROM employee;")
+    .then(result => {
+        console.table(result[0]);
+        mainMenu();
+    })
 }
 
-function viewEmployessByDepartment() {
-    console.log("viewEmployessByDepartment Function")
-    
+function viewRoles() {
+    console.log("view all roles")
+    db.promise().query("SELECT * FROM role")
+    .then(result => {
+        console.table(result[0]);
+        mainMenu();
+    })
 }
+
 
 function viewDepartment() {
     console.log("View all department")
@@ -46,7 +55,7 @@ function quit() {
 function mainMenu() {
     console.log("Main Menu")
 
-    inquirer.prompt([
+    inquirer.prompt(
         {
             type: "list",
             name: "choice",
@@ -56,13 +65,14 @@ function mainMenu() {
                     name: "View All Employees",
                     value: "VIEW_EMPLOYEES"
                 },
-                {
-                    name: "View All EMployees By Department",
-                    value: "VIEW_EMPLOYEES_BY_DEPARTMENT"
-                },
+               
                 {
                     name: "View All Department",
                     value: "VIEW_DEPARTMENT"
+                },
+                {
+                    name: "View All Roles",
+                    value: "VIEW_ROLES"
                 },
                 {
                     name: "Create new Department",
@@ -74,18 +84,18 @@ function mainMenu() {
                 }
             ]
         }
-    ]).then((answers) => {
+    ).then((answers) => {
 
         console.log(answers)
         switch(answers.choice){
             case "VIEW_EMPLOYEES":
                 viewEmployees();
                 break;
-            case "VIEW_EMPLOYEES_BY_DEPARTMENT":
-                viewEmployessByDepartment();
-                break;
             case "VIEW_DEPARTMENT":
                 viewDepartment();
+                break;
+            case "VIEW_ROLES":
+                viewRoles();
                 break;
             case "CREATE_DEPARTMENT":
                 createDepartment();
@@ -103,22 +113,3 @@ function init() {
 }
 
 init();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
